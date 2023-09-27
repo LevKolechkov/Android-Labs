@@ -1,4 +1,4 @@
-package com.example.toasthandler
+package ru.tutorial.toasthandler
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

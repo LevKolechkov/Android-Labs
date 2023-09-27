@@ -1,4 +1,4 @@
-package com.example.toasthandler
+package ru.tutorial.toasthandler
 
 import org.junit.Test
 
