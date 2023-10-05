@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_timber.setOnClickListener{
+            Timber.plant(Timber.DebugTree())
+            Timber.v(editText.text.toString())
         }
 
     }
