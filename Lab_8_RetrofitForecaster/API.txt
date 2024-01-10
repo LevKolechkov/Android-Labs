@@ -1,0 +1,14 @@
+API ключ:
+b66225f1f146bffbd338fa80cf3e0d0e
+b66225f1f146bffbd338fa80cf3e0d0e&units=metric
+
+API запрос:
+https://api.openweathermap.org/data/2.5/forecast?id=622034&appid=b66225f1f146bffbd338fa80cf3e0d0e&units=metric
+
+"id": 622034,
+        "name": "Shklow",
+        "state": "",
+        "country": "BY",
+        "coord": {
+            "lon": 30.291945,
+            "lat": 54.210835
