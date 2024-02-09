@@ -1,0 +1,8 @@
+API ключ:
+b66225f1f146bffbd338fa80cf3e0d0e
+b66225f1f146bffbd338fa80cf3e0d0e&units=metric
+
+API запрос по имени:
+https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+
+https://api.openweathermap.org/data/2.5/weather?q=Kemerovo&appid=f7998b6d0944659a46d9d0e2993b2212
