@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
       WeatherViewModelTheme {
         // A surface container using the 'background' color from the theme
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          ForecastScreen()
+          ForecastApp()
         }
       }
     }
