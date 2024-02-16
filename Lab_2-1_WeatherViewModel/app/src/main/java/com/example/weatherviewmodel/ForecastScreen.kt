@@ -1,5 +1,6 @@
 package com.example.weatherviewmodel
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,12 +30,11 @@ fun ForecastApp(){
       forecastViewModel.name.value = it
     })
     Button(onClick = {
-      println("Fetching forecast...")
-
       forecastViewModel.pressedButton.value = true
       forecastViewModel.fetchForecast()
-
-      println("Fetching completed")
+      println("Name: ${forecastViewModel.forecastState.value?.name}")
+      println("Temperature: ${forecastViewModel.forecastState.value?.temp}")
+      println("Description: ${forecastViewModel.forecastState.value?.description}")
     }) {
       Text(text = "GET FORECAST")
     }
