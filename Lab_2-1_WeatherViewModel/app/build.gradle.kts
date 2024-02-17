@@ -48,8 +48,12 @@ android {
 
 dependencies {
 
+  implementation ("io.coil-kt:coil-compose:1.3.1")
+
+
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
 
+  implementation ("com.squareup.picasso:picasso:2.8")
 
   implementation("androidx.navigation:navigation-compose:2.7.4")
 

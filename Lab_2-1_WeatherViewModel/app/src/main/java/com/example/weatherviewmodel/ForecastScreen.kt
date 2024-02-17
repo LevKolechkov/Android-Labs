@@ -1,6 +1,6 @@
 package com.example.weatherviewmodel
 
-import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,24 +17,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 
 @Composable
-fun ForecastApp(){
-  val forecastViewModel: MainViewModel = viewModel()
+fun ForecastApp(forecastViewModel: MainViewModel){
   Column (
     modifier = Modifier.fillMaxSize(),
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     OutlinedTextField(value = forecastViewModel.name.value, onValueChange = {
+      forecastViewModel.pressedButton.value = false
       forecastViewModel.name.value = it
     })
     Button(onClick = {
       forecastViewModel.pressedButton.value = true
+      forecastViewModel.forecastState.value?.loading = true
       forecastViewModel.fetchForecast()
+
       println("Name: ${forecastViewModel.forecastState.value?.name}")
       println("Temperature: ${forecastViewModel.forecastState.value?.temp}")
       println("Description: ${forecastViewModel.forecastState.value?.description}")
+
     }) {
       Text(text = "GET FORECAST")
     }
@@ -43,18 +48,18 @@ fun ForecastApp(){
       .padding(8.dp)){
       when{
         !forecastViewModel.pressedButton.value -> {
-          Text(modifier = Modifier.align(Alignment.Center),text = "You didn't press button yet")
-        }
 
-        forecastViewModel.pressedButton.value == true && forecastViewModel.forecastState.value?.loading == true -> {
-          CircularProgressIndicator(Modifier.align(Alignment.Center))
         }
 
         forecastViewModel.forecastState.value?.error != null -> {
           Text(text = "Error with fetching forecast")
         }
         else -> {
-          forecastBox(forecastViewModel = forecastViewModel)
+          if (forecastViewModel.responsed_name.value == ""){
+            CircularProgressIndicator(Modifier.align(Alignment.Center))
+          } else {
+            forecastBox(forecastViewModel = forecastViewModel)
+          }
         }
       }
     }
@@ -64,14 +69,29 @@ fun ForecastApp(){
 @Composable
 fun forecastBox(forecastViewModel: MainViewModel){
   Column {
-    Text(text = "${forecastViewModel.name.value}")
+    Text(text = forecastViewModel.responsed_name.value)
     Text(text = "Temperature: ${forecastViewModel.temp.value}°C")
     Text(text = "Description: ${forecastViewModel.description.value}")
+    ImageFromUrl(url ="https://openweathermap.org/img/wn/" + forecastViewModel.weather.value[0].icon + "@2x.png" )
   }
 }
 
-@Preview
+//"https://openweathermap.org/img/wn/" + weather.icon + "@2x.png"
+
+@OptIn(ExperimentalCoilApi::class)
+@Composable
+fun ImageFromUrl(url: String) {
+  Image(
+    painter = rememberImagePainter(
+      data = url
+    ),
+    contentDescription = null
+  )
+}
+
+@Preview(showBackground = true)
 @Composable
 fun ForecastPreview(){
-  ForecastApp()
+  val forecastViewModel: MainViewModel = viewModel()
+  ForecastApp(forecastViewModel)
 }

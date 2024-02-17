@@ -7,6 +7,7 @@ data class Forecast(
   val main: Main,
   val visibility: Int,
   val wind: Wind,
+  val snow: Snow,
   val clouds: Clouds,
   val dt: Int,
   val sys: Sys,
@@ -14,6 +15,10 @@ data class Forecast(
   val id: Int,
   val name: String,
   val cod: Int
+)
+
+data class Snow(
+  val `1h`: Double
 )
 
 data class Coordinates (

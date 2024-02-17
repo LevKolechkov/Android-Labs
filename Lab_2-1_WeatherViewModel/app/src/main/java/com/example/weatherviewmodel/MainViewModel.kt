@@ -10,8 +10,10 @@ import kotlinx.coroutines.launch
 class MainViewModel : ViewModel() {
   val name: MutableState<String> = mutableStateOf("")
 
+  val responsed_name: MutableState<String> = mutableStateOf("")
   val temp: MutableState<Double> = mutableStateOf(0.0)
   val description: MutableState<String> = mutableStateOf("")
+  val weather: MutableState<List<Weather>> = mutableStateOf(emptyList())
 
   val pressedButton: MutableState<Boolean> = mutableStateOf(false)
 
@@ -23,14 +25,15 @@ class MainViewModel : ViewModel() {
         try {
           println("Getting response...")
           val forecastService = CreateForecastService(name.value)
-          val response = forecastService.getForecast()
+          val response = forecastService.getForecast(name.value)
 
-          name.value = response.name.toString()
+          responsed_name.value = response.name.toString()
           temp.value = response.main.temp.toDouble()
-          description.value = response.weather[0].description.toString()
+          weather.value = response.weather
+          description.value = weather.value[0].description
 
           _forecastState.setValue(
-            ForecastState(
+            _forecastState.value?.copy(
             loading = false,
             temp = response.main.temp,
             name = response.name,
@@ -47,11 +50,12 @@ class MainViewModel : ViewModel() {
   }
 
   data class ForecastState(
-    val loading: Boolean? = true,
-    val temp: Double,
-    val name: String,
-    val description: String,
-    val error: String? = null
+    var loading: Boolean? = true,
+    var temp: Double,
+    var name: String,
+    var description: String,
+    var weather: List<Weather>,
+    var error: String? = null
   )
 }
 
