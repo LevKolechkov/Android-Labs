@@ -70,9 +70,9 @@ fun ForecastApp(forecastViewModel: MainViewModel){
 fun forecastBox(forecastViewModel: MainViewModel){
   Column {
     Text(text = forecastViewModel.responsed_name.value)
-    Text(text = "Temperature: ${forecastViewModel.temp.value}°C")
-    Text(text = "Description: ${forecastViewModel.description.value}")
-    ImageFromUrl(url ="https://openweathermap.org/img/wn/" + forecastViewModel.weather.value[0].icon + "@2x.png" )
+    Text(text = "Temperature: ${forecastViewModel.forecastState.value?.temp}°C")
+    Text(text = "Description: ${forecastViewModel.forecastState.value?.description}")
+    ImageFromUrl(url ="https://openweathermap.org/img/wn/" + (forecastViewModel.forecastState.value?.weather?.get(0)?.icon) + "@2x.png" )
   }
 }
 

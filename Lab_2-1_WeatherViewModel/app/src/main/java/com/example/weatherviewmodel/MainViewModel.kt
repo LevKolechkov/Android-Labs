@@ -11,13 +11,14 @@ class MainViewModel : ViewModel() {
   val name: MutableState<String> = mutableStateOf("")
 
   val responsed_name: MutableState<String> = mutableStateOf("")
-  val temp: MutableState<Double> = mutableStateOf(0.0)
-  val description: MutableState<String> = mutableStateOf("")
-  val weather: MutableState<List<Weather>> = mutableStateOf(emptyList())
+
+  private val temp: MutableState<Double> = mutableStateOf(0.0)
+  private val description: MutableState<String> = mutableStateOf("")
+  private val weather: MutableState<List<Weather>> = mutableStateOf(emptyList())
 
   val pressedButton: MutableState<Boolean> = mutableStateOf(false)
 
-  private val _forecastState = MutableLiveData<ForecastState>()
+  private val _forecastState = MutableLiveData<ForecastState>(ForecastState())
   val forecastState: MutableLiveData<ForecastState> = _forecastState
 
   fun fetchForecast(){
@@ -27,17 +28,18 @@ class MainViewModel : ViewModel() {
           val forecastService = CreateForecastService(name.value)
           val response = forecastService.getForecast(name.value)
 
-          responsed_name.value = response.name.toString()
-          temp.value = response.main.temp.toDouble()
+          responsed_name.value = response.name
+          temp.value = response.main.temp
           weather.value = response.weather
           description.value = weather.value[0].description
 
           _forecastState.setValue(
             _forecastState.value?.copy(
             loading = false,
-            temp = response.main.temp,
-            name = response.name,
-            description = response.weather[0].description
+            temp = temp.value,
+            name = responsed_name.value,
+            weather = weather.value,
+            description = description.value
           )
           )
         } catch (e: Exception) {
@@ -51,10 +53,10 @@ class MainViewModel : ViewModel() {
 
   data class ForecastState(
     var loading: Boolean? = true,
-    var temp: Double,
-    var name: String,
-    var description: String,
-    var weather: List<Weather>,
+    var temp: Double = 0.0,
+    var name: String = "",
+    var description: String = "",
+    var weather: List<Weather> = emptyList(),
     var error: String? = null
   )
 }
