@@ -67,6 +67,15 @@ fun CharacterItem(character: Result){
       painter =
       rememberAsyncImagePainter(character.image),
       contentDescription = character.name,
-      modifier = Modifier.height(128.dp).width(128.dp).aspectRatio(1f))
+      modifier = Modifier
+        .height(128.dp)
+        .width(128.dp)
+        .aspectRatio(1f))
+    
+    Spacer(modifier = Modifier.width(8.dp))
+    Text(text = character.name)
+
+    Spacer(modifier = Modifier.width(8.dp))
+    Text(text = character.species)
   }
 }
