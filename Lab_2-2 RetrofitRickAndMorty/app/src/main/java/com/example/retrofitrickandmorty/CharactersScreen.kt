@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
@@ -51,13 +52,15 @@ fun CharacterScreen(characters: List<Result>){
   LazyVerticalGrid(GridCells.Fixed(1), modifier = Modifier.fillMaxSize()){
     items(characters){
       character ->
-        CharacterItem(character = character)
+        if (character.species.uppercase() == "HUMAN") CharacterHumanItem(character = character)
+
+        if (character.species.uppercase() == "ALIEN") CharacterAlienItem(character = character)
     }
   }
 }
 
 @Composable
-fun CharacterItem(character: Result){
+fun CharacterHumanItem(character: Result){
   Row (
     modifier = Modifier
       .padding(8.dp)
@@ -71,11 +74,16 @@ fun CharacterItem(character: Result){
         .height(128.dp)
         .width(128.dp)
         .aspectRatio(1f))
-    
-    Spacer(modifier = Modifier.width(8.dp))
-    Text(text = character.name)
+  }
+}
 
-    Spacer(modifier = Modifier.width(8.dp))
-    Text(text = character.species)
+@Composable
+fun CharacterAlienItem(character: Result){
+  Row (
+    modifier = Modifier
+      .padding(8.dp)
+      .fillMaxSize()
+  ) {
+    Text(text = character.name)
   }
 }
