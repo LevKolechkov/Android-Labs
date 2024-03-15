@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
@@ -16,7 +17,7 @@ class MainViewModel: ViewModel() {
   }
 
   private fun fetchCharacters(){
-    viewModelScope.launch {
+    viewModelScope.async {
       try {
         val response = recipeService.getCharacters()
         _charactersState.value = _charactersState.value.copy(
