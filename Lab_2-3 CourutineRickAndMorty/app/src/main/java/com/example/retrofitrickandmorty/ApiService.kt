@@ -15,7 +15,4 @@ interface ApiCharacterService{
 
   @GET("{paramValue}")
   suspend fun getCharacters(@Path("paramValue") paramValue: String):Characters
-
-//  @GET("api/character")
-//  suspend fun getCharacters():Characters
 }
