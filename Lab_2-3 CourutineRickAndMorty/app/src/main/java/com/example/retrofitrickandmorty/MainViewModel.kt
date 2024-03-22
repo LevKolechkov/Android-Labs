@@ -3,6 +3,8 @@ package com.example.retrofitrickandmorty
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 
@@ -20,7 +22,9 @@ class MainViewModel: ViewModel() {
     }
 
     private fun fetchCharacters(){
-      runBlocking {
+
+      //runBlocking
+      GlobalScope.launch {
         try {
           val response = recipeService.getCharacters(paramValue = endpoint)
           _charactersState.value = _charactersState.value.copy(
