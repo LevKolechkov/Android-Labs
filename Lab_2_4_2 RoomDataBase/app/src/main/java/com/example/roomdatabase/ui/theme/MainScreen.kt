@@ -72,7 +72,14 @@ fun MainScreen(
     LazyColumn(
       modifier = Modifier.fillMaxWidth()
     ) {
-      items(itemsList.value){ item ->
+      items(itemsList.value){ nameEntityItem ->
+        val item = ItemNameEntity(
+          id = nameEntityItem.id,
+          name = nameEntityItem.name,
+          desc = nameEntityItem.desc,
+          expanded = false
+        )
+
         ListItem(
           item,
           onClick = {
@@ -86,3 +93,10 @@ fun MainScreen(
     }
   }
 }
+
+data class ItemNameEntity(
+  val id: Int? = null,
+  val name: String = "",
+  var desc: String = "",
+  var expanded: Boolean = false
+)

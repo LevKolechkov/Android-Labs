@@ -16,9 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.roomdatabase.data.NameEntity
 
+
+
 @Composable
 fun ListItem(
-  item: NameEntity,
+  item: ItemNameEntity,
   onClick: (NameEntity) -> Unit,
   onDelete: (NameEntity) -> Unit
 ) {
@@ -27,7 +29,11 @@ fun ListItem(
       .fillMaxWidth()
       .padding(5.dp)
       .clickable {
-        onClick(item)
+        onClick(NameEntity(
+          id = item.id,
+          name = item.name,
+          desc = item.desc
+        ))
       }
   ) {
     Row(
@@ -42,7 +48,11 @@ fun ListItem(
           .padding(10.dp)
       )
       IconButton(onClick = {
-        onDelete(item)
+        onDelete(NameEntity(
+          id = item.id,
+          name = item.name,
+          desc = item.desc
+        ))
       }) {
         Icon(
           imageVector = Icons.Default.Delete,
