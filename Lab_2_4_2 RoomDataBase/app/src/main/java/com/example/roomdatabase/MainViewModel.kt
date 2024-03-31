@@ -19,8 +19,8 @@ class MainViewModel(val database: MainDB) : ViewModel() {
   var nameEntity: NameEntity? = null
 
   fun insertItem() = viewModelScope.launch {
-    val nameItem = nameEntity?.copy(name = newText.value)
-      ?: NameEntity(name = newText.value, desc = "")
+    val nameItem = nameEntity?.copy(name = newText.value, desc = newDesc.value)
+      ?: NameEntity(name = newText.value, desc = newDesc.value)
     database.dao.insertItem(nameItem)
 
     nameEntity = null

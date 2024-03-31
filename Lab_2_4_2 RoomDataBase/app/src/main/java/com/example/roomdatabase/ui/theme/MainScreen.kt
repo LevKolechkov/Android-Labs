@@ -1,6 +1,6 @@
 package com.example.roomdatabase.ui.theme
 
-import android.graphics.drawable.Icon
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,14 +19,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomdatabase.MainViewModel
+import com.example.roomdatabase.data.NameEntity
 
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
@@ -75,16 +79,20 @@ fun MainScreen(
       items(itemsList.value){ nameEntityItem ->
         val item = ItemNameEntity(
           id = nameEntityItem.id,
-          name = nameEntityItem.name,
-          desc = nameEntityItem.desc,
-          expanded = false
+          name = mutableStateOf(nameEntityItem.name),
+          desc = mutableStateOf(nameEntityItem.desc)
         )
 
         ListItem(
           item,
           onClick = {
-            mainViewModel.nameEntity = it
-            mainViewModel.newText.value = it.name
+            mainViewModel.nameEntity = NameEntity(
+              id = item.id,
+              name = item.name.value,
+              desc = item.desc.value)
+
+            mainViewModel.newText.value = it.name.value
+            mainViewModel.newDesc.value = it.desc.value
           },
           onDelete = {
             mainViewModel.deleteItem(it)
@@ -96,7 +104,7 @@ fun MainScreen(
 
 data class ItemNameEntity(
   val id: Int? = null,
-  val name: String = "",
-  var desc: String = "",
-  var expanded: Boolean = false
+  val name: MutableState<String> = mutableStateOf(""),
+  var desc: MutableState<String> = mutableStateOf(""),
+  var expanded: MutableState<Boolean> = mutableStateOf(false)
 )
