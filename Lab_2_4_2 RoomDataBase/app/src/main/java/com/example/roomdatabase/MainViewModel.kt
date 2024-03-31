@@ -24,6 +24,7 @@ class MainViewModel(val database: MainDB) : ViewModel() {
     database.dao.insertItem(nameItem)
 
     nameEntity = null
+    newDesc.value = ""
   }
 
   fun deleteItem(item: NameEntity) = viewModelScope.launch{

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -22,7 +23,8 @@ import com.example.roomdatabase.data.NameEntity
 fun ListItem(
   item: ItemNameEntity,
   onClick: (ItemNameEntity) -> Unit,
-  onDelete: (NameEntity) -> Unit
+  onDelete: (NameEntity) -> Unit,
+  onClickSaveDesc: (ItemNameEntity) -> Unit
 ) {
   Card (
     modifier = Modifier
@@ -35,7 +37,7 @@ fun ListItem(
       }
   ) {
     if (!item.expanded.value) NotExpandedItem(item = item, onDelete = onDelete)
-    else ExpandedItem(item = item, onDelete = onDelete)
+    else ExpandedItem(item = item, onDelete = onDelete, onClick = onClick, onClickSaveDesc = onClickSaveDesc)
   }
 }
 
@@ -72,7 +74,9 @@ fun NotExpandedItem(
 @Composable
 fun ExpandedItem(
   item: ItemNameEntity,
-  onDelete: (NameEntity) -> Unit
+  onDelete: (NameEntity) -> Unit,
+  onClick: (ItemNameEntity) -> Unit,
+  onClickSaveDesc: (ItemNameEntity) -> Unit
 ){
   Row(
     modifier = Modifier.fillMaxWidth(),
@@ -90,6 +94,14 @@ fun ExpandedItem(
         onValueChange = { item.desc.value = it },
         label = { Text("Description") }
       )
+    }
+    IconButton(onClick = {
+      onClick(item)
+      onClickSaveDesc(item)
+    }) {
+      Icon(
+        imageVector = Icons.Default.Check,
+        contentDescription = "Check")
     }
     IconButton(onClick = {
       onDelete(NameEntity(

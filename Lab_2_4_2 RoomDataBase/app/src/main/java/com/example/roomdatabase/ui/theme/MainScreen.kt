@@ -96,6 +96,9 @@ fun MainScreen(
           },
           onDelete = {
             mainViewModel.deleteItem(it)
+          },
+          onClickSaveDesc = {
+            mainViewModel.insertItem()
           })
       }
     }
