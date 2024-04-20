@@ -103,8 +103,7 @@ class MainActivity : ComponentActivity() {
                 pathList[pathList.size - 1] == pathD
               }
             },
-            onImportImage = { launcher ->
-
+            onImportImage = { launcher.launch("image/*")
             }
           )
         }

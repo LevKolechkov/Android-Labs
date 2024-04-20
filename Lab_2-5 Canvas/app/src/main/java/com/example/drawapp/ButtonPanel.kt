@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,7 +39,7 @@ fun ButtonPanel(
   onClick: (Color) -> Unit,
   onLineWidthChange: (Float) -> Unit,
   onBackClick: () -> Unit,
-  onImportImage: (ManagedActivityResultLauncher<String, Uri?>) -> Unit
+  onImportImage: () -> Unit
 ) {
   Column(
     modifier = Modifier
@@ -52,9 +53,9 @@ fun ButtonPanel(
     CustomSlider { lineWidth ->
       onLineWidthChange(lineWidth)
     }
-    ButtonPanel {
-      onBackClick()
-    }
+    ButtonPanel(
+      onClick = onBackClick,
+      onImportImage = onImportImage)
     Spacer(modifier = Modifier.height(5.dp))
   }
 }
@@ -105,7 +106,7 @@ fun CustomSlider(onChange: (Float) -> Unit) {
 }
 
 @Composable
-fun ButtonPanel(onClick: () -> Unit) {
+fun ButtonPanel(onClick: () -> Unit, onImportImage: () -> Unit) {
   Row(
     modifier = Modifier
       .fillMaxWidth()
@@ -121,6 +122,18 @@ fun ButtonPanel(onClick: () -> Unit) {
       }) {
       Icon(
         imageVector = Icons.Default.ArrowBack,
+        contentDescription = null
+      )
+    }
+    IconButton(
+      modifier = Modifier
+        .clip(CircleShape)
+        .background(Color.White),
+      onClick = {
+        onImportImage()
+      }) {
+      Icon(
+        imageVector = Icons.Default.AddCircle,
         contentDescription = null
       )
     }
