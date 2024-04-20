@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
           Box(
           ) {
             imageUri?.let {
-              if (Build.VERSION.SDK_INT < 28){
+              if (Build.VERSION.SDK_INT < 28) {
                 bitmap.value = MediaStore.Images
                   .Media.getBitmap(context.contentResolver, it)
               } else {
@@ -84,25 +84,29 @@ class MainActivity : ComponentActivity() {
                 )
               }
             }
-            
+
             DrawCanvas(pathData, pathList)
           }
           ButtonPanel(
-            { color ->
+            onClick = { color ->
               pathData.value = pathData.value.copy(
                 color = color
               )
             },
-            { lineWidth ->
+            onLineWidthChange = { lineWidth ->
               pathData.value = pathData.value.copy(
                 lineWidth = lineWidth
               )
+            },
+            onBackClick = {
+              pathList.removeIf { pathD ->
+                pathList[pathList.size - 1] == pathD
+              }
+            },
+            onImportImage = { launcher ->
+
             }
-          ) {
-            pathList.removeIf { pathD ->
-              pathList[pathList.size - 1] == pathD
-            }
-          }
+          )
         }
       }
     }

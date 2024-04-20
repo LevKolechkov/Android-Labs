@@ -1,5 +1,7 @@
 package com.example.drawapp
 
+import android.net.Uri
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +37,8 @@ import androidx.compose.ui.unit.dp
 fun ButtonPanel(
   onClick: (Color) -> Unit,
   onLineWidthChange: (Float) -> Unit,
-  onBackClick: () -> Unit
+  onBackClick: () -> Unit,
+  onImportImage: (ManagedActivityResultLauncher<String, Uri?>) -> Unit
 ) {
   Column(
     modifier = Modifier
