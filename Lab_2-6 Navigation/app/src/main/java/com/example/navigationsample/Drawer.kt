@@ -1,7 +1,6 @@
 package com.example.navigationsample
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Face
@@ -15,6 +14,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -39,8 +39,12 @@ fun Drawer() {
   )
   val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
   val scope = rememberCoroutineScope()
+
+  var selectedItemID = remember {
+    mutableStateOf(0)
+  }
   val selectedItem = remember {
-    mutableStateOf(items[0])
+    mutableStateOf(items[selectedItemID.value])
   }
 
   ModalNavigationDrawer(
@@ -61,7 +65,6 @@ fun Drawer() {
             },
             onClick = {
               scope.launch {
-                selectedItem.value = item
                 drawerState.close()
               }
             })
@@ -69,11 +72,11 @@ fun Drawer() {
       }
     },
     content = {
-      scope.launch { drawerState.open() }
       IconButton(onClick = { scope.launch { drawerState.open() } }) {
         Icon(imageVector = Icons.Default.List, contentDescription = "List")
       }
-      MyApp()
+      selectedItem.value = items[selectedItemID.value]
+      MyApp(selectedItemID)
     })
 
 }
@@ -84,18 +87,20 @@ data class DrawerItem(
 )
 
 @Composable
-fun MyApp() {
+fun MyApp(selectedItemID: MutableState<Int>) {
   val navController = rememberNavController()
   NavHost(navController = navController, startDestination = "firstscreen") {
     composable("firstscreen") {
       FirstScreen { name ->
         navController.navigate("secondscreen/$name")
+        selectedItemID.value = 1
       }
     }
     composable("secondscreen/{name}") {
       val name = it.arguments?.getString("name") ?: "no name"
       SecondScreen(name) { name ->
         navController.navigate("firstscreen")
+        selectedItemID.value = 0
       }
     }
   }
